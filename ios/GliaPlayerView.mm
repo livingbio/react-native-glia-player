@@ -1,0 +1,48 @@
+#import "GliaPlayerView.h"
+
+#import <React/RCTConversions.h>
+
+#import <react/renderer/components/GliaPlayerViewSpec/ComponentDescriptors.h>
+#import <react/renderer/components/GliaPlayerViewSpec/Props.h>
+#import <react/renderer/components/GliaPlayerViewSpec/RCTComponentViewHelpers.h>
+
+#import "RCTFabricComponentsPlugins.h"
+
+using namespace facebook::react;
+
+@implementation GliaPlayerView {
+    UIView * _view;
+}
+
++ (ComponentDescriptorProvider)componentDescriptorProvider
+{
+    return concreteComponentDescriptorProvider<GliaPlayerViewComponentDescriptor>();
+}
+
+- (instancetype)initWithFrame:(CGRect)frame
+{
+  if (self = [super initWithFrame:frame]) {
+    static const auto defaultProps = std::make_shared<const GliaPlayerViewProps>();
+    _props = defaultProps;
+
+    _view = [[UIView alloc] init];
+
+    self.contentView = _view;
+  }
+
+  return self;
+}
+
+- (void)updateProps:(Props::Shared const &)props oldProps:(Props::Shared const &)oldProps
+{
+    const auto &oldViewProps = *std::static_pointer_cast<GliaPlayerViewProps const>(_props);
+    const auto &newViewProps = *std::static_pointer_cast<GliaPlayerViewProps const>(props);
+
+    if (oldViewProps.color != newViewProps.color) {
+        [_view setBackgroundColor: RCTUIColorFromSharedColor(newViewProps.color)];
+    }
+
+    [super updateProps:props oldProps:oldProps];
+}
+
+@end
