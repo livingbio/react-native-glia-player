@@ -1,14 +1,12 @@
 #import <React/RCTViewComponentView.h>
 #import <UIKit/UIKit.h>
 
-#ifndef GliaPlayerViewNativeComponent_h
-#define GliaPlayerViewNativeComponent_h
-
 NS_ASSUME_NONNULL_BEGIN
 
 @interface GliaPlayerView : RCTViewComponentView
+
+// You would declare native methods you'd want to access from the view here
+
 @end
 
 NS_ASSUME_NONNULL_END
-
-#endif /* GliaPlayerViewNativeComponent_h */
