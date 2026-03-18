@@ -8,6 +8,10 @@ import com.facebook.react.uimanager.ViewManagerDelegate
 import com.facebook.react.uimanager.annotations.ReactProp
 import com.facebook.react.viewmanagers.GliaPlayerViewManagerInterface
 import com.facebook.react.viewmanagers.GliaPlayerViewManagerDelegate
+import com.google.android.gms.ads.MobileAds
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 @ReactModule(name = GliaPlayerViewManager.NAME)
 class GliaPlayerViewManager : SimpleViewManager<GliaPlayerView>(),
@@ -30,10 +34,36 @@ class GliaPlayerViewManager : SimpleViewManager<GliaPlayerView>(),
     return GliaPlayerView(context)
   }
 
-  @ReactProp(name = "color")
-  override fun setColor(view: GliaPlayerView?, color: Int?) {
-    view?.setBackgroundColor(color ?: Color.TRANSPARENT)
+  @ReactProp(name = "slotKey")
+  override fun setSlotKey(view: GliaPlayerView?, slotKey: String?) {
+    if (slotKey == null) {
+      view?.emitOnPageLoaded(GliaPlayerView.OnPageLoadedEventResult.error)
+      return;
+    }
+    view?.let { gliaplayerView ->
+      CoroutineScope(Dispatchers.IO).launch {
+        // Initialize the Google Mobile Ads SDK on a background thread.
+        MobileAds.initialize(gliaplayerView.context) {
+          CoroutineScope(Dispatchers.Main).launch {
+            MobileAds.registerWebView(gliaplayerView)
+            gliaplayerView.initGliaPlayer(slotKey)
+          }
+        }
+      }
+    }
   }
+
+  override fun getExportedCustomBubblingEventTypeConstants(): Map<String, Any> =
+    mapOf(
+      "onPageLoaded" to
+        mapOf(
+          "phasedRegistrationNames" to
+            mapOf(
+              "bubbled" to "onPageLoaded",
+              "captured" to "onPageLoadedCapture"
+            )
+        )
+    )
 
   companion object {
     const val NAME = "GliaPlayerView"
