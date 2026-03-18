@@ -1,6 +1,7 @@
 require "json"
 
 package = JSON.parse(File.read(File.join(__dir__, "package.json")))
+min_ios_version_supported = "13.4"
 
 Pod::Spec.new do |s|
   s.name         = "GliaPlayer"
@@ -15,6 +16,12 @@ Pod::Spec.new do |s|
 
   s.source_files = "ios/**/*.{h,m,mm,swift,cpp}"
   s.private_header_files = "ios/**/*.h"
+  s.dependency "Google-Mobile-Ads-SDK"
+  s.pod_target_xcconfig = {
+    'DEFINES_MODULE' => 'YES',
+    'SWIFT_COMPILATION_MODE' => 'wholemodule',
+  }
+  s.swift_version = "5.0"
 
   install_modules_dependencies(s)
 end

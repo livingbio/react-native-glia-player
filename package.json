@@ -1,6 +1,6 @@
 {
-  "name": "react-native-glia-player",
-  "version": "0.1.0",
+  "name": "@gliacloud/react-native-glia-player",
+  "version": "0.9.0",
   "description": "GliaPlayer React Native SDK, a WebView-based video ad player, into a React Native project.",
   "main": "./lib/module/index.js",
   "types": "./lib/typescript/src/index.d.ts",
@@ -84,8 +84,8 @@
     "typescript": "^5.9.2"
   },
   "peerDependencies": {
-    "react": "*",
-    "react-native": "*"
+    "react": ">= 18.0.0",
+    "react-native": ">= 0.74.0"
   },
   "workspaces": [
     "example"
@@ -113,6 +113,10 @@
     "name": "GliaPlayerViewSpec",
     "type": "all",
     "jsSrcsDir": "src",
+    "outputDir": {
+      "ios": "ios/generated",
+      "android": "android/generated"
+    },
     "android": {
       "javaPackageName": "com.gliaplayer"
     },
