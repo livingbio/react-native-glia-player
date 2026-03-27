@@ -1,6 +1,6 @@
 {
   "name": "@gliacloud/react-native-glia-player",
-  "version": "0.9.0",
+  "version": "0.10.0",
   "description": "GliaPlayer React Native SDK, a WebView-based video ad player, into a React Native project.",
   "main": "./lib/module/index.js",
   "types": "./lib/typescript/src/index.d.ts",
