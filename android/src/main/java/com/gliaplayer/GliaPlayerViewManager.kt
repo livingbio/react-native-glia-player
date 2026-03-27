@@ -53,6 +53,14 @@ class GliaPlayerViewManager : SimpleViewManager<GliaPlayerView>(),
     }
   }
 
+  override fun pause(view: GliaPlayerView?) {
+    view?.pause()
+  }
+
+  override fun resume(view: GliaPlayerView?) {
+    view?.resume()
+  }
+
   override fun getExportedCustomBubblingEventTypeConstants(): Map<String, Any> =
     mapOf(
       "onPageLoaded" to
