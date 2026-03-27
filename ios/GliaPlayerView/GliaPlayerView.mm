@@ -68,6 +68,39 @@ using namespace facebook::react;
     [super updateProps:props oldProps:oldProps];
 }
 
+#pragma mark - React Native Commands
+
+// Route the JS commands to the native Objective-C methods
+- (void)handleCommand:(const NSString *)commandName args:(const NSArray *)args {
+  RCTGliaPlayerViewHandleCommand(self, commandName, args);
+}
+
+// Pause Implementation
+- (void)pause {
+    if (_webView) {
+        // If you are on iOS 15+, this is a more "native" way to halt the WebView:
+        if (@available(iOS 15.0, *)) {
+            [_webView setAllMediaPlaybackSuspended:YES completionHandler:nil];
+        } else {
+          // We use JS as a universal way to pause the HTML5 player
+          [_webView evaluateJavaScript:@"document.querySelectorAll('video').forEach(v => v.pause());" 
+                    completionHandler:nil];
+        }
+    }
+}
+
+// Resume Implementation
+- (void)resume {
+    if (_webView) {
+        if (@available(iOS 15.0, *)) {
+            [_webView setAllMediaPlaybackSuspended:NO completionHandler:nil];
+        } else {
+          [_webView evaluateJavaScript:@"document.querySelectorAll('video').forEach(v => v.play());" 
+                   completionHandler:nil];
+        }
+    }
+}
+
 #pragma mark - Helper for Safari Presentation
 
 // Helper to find the current ViewController to present Safari
