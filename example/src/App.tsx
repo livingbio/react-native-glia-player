@@ -1,6 +1,6 @@
 import React, { useMemo, useRef } from 'react';
 import { View, ScrollView, StyleSheet, Button } from 'react-native';
-import { GliaPlayerView, Commands } from '@gliacloud/react-native-glia-player';
+import { GliaPlayerView, Commands } from 'react-native-glia-player';
 
 const getRandomColor = () => {
   const r = Math.floor(Math.random() * 256);
